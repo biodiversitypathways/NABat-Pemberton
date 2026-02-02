@@ -56,8 +56,9 @@ library(readr)
 library(leaflet)
 library(sf)
 
-df <- read.csv("Data/GUANO_Complete_Metadata_20251205_191827.csv")
-sites <- read.csv("Data/BlackWaterMine_Survey123.csv")
+df <- read.csv("Data/GUANO_Complete_Metadata_20260130_112825.csv")
+sites <- read_csv("Data/Pemberton_Survey123.csv")%>%
+  rename_with(~ gsub(" ", ".", .x))
 
 #make sure that the columns are the proper classes
 sites$Date.Recording.Started <- as.Date(mdy_hms(sites$Date.Recording.Started))
@@ -78,13 +79,13 @@ sites <- sites %>%
 #| message: false
 # Create cleaned dataframe with selected columns
 sites_table <- sites[, c("Grid.Cell.Identifier",
-                         "Grid.Cell..GRTS..ID",
+                         "Grid.Cell.(GRTS).ID",
                           "x", 
                           "y", 
                           "Date.Recording.Started", 
                           "Date.Recording.Ended",
-                          "Other",
-                          "Detector.ID.Serial.Number")]
+                          "Bat.Detector.Model",
+                          "Detector.ID/Serial.Number")]
 #keep a copy without the renamed columns to use for creating the map
 sites_sf <- sites_table|>
   filter(!is.na(y) & !is.na(x)) |>
@@ -209,54 +210,6 @@ create_species_matrix <- function(data, species_column, location_column = "site"
   return(species_matrix)
 }
 
-# ============================================================================
-# Manual ID
-# ============================================================================
-manual_matrix <- create_species_matrix(data, "Species.Manual.ID")
-
-# Convert to long format for ggplot
-manual_long <- manual_matrix %>%
-  pivot_longer(
-    cols = -location,
-    names_to = "species",
-    values_to = "present"
-  ) %>%
-  mutate(species = factor(species))
-
-manual_long$location <- factor(manual_long$location, 
-                               levels = sort(unique(manual_long$location)))
-
-# Custom species ordering: alphabetical, but HighF, LowF, 40K at end
-species_list <- unique(manual_long$species)
-
-freq_categories <- c("40K", "HiF", "HiLo", "LoF", "HighF", "LowF")
-regular_species <- sort(setdiff(species_list, freq_categories))
-ordered_species <- c(regular_species, sort(freq_categories))
-
-manual_long$species <- factor(manual_long$species, levels = ordered_species)
-
-# Create heat map for Manual ID
-MV <- ggplot(manual_long, aes(x = species, y = location, fill = factor(present))) +
-  geom_tile(color = "white", linewidth = 0.5) +
-  scale_fill_manual(
-    values = c("0" = "gray95", "1" = "#2C7BB6"),
-    labels = c("Absent", "Present"),
-    name = "Detection"
-  ) +
-  labs(
-    #subtitle = "Species confirmed through manual verification of recordings",
-    x = "Species Code",
-    y = "Location"
-  ) +
-  theme_minimal(base_size = 12) +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 10),
-    axis.text.y = element_text(size = 10),
-    plot.title = element_text(face = "bold", size = 14),
-    plot.subtitle = element_text(size = 11, color = "gray40"),
-    panel.grid = element_blank(),
-    legend.position = "bottom"
-  )
 
 # ============================================================================
 # KALEIDOSCOPE AUTO ID
@@ -483,9 +436,9 @@ Biodiversity Pathways respectfully acknowledges that our work takes place on Tre
 
 The North American Bat Monitoring Program (NABat) is a large-scale coordinated effort to monitor bat species across North America using standardized protocols and a unified sample design [@loeb2015Plan]. NABat was established to address the gaps in knowledge and lack of long-term studies of bat species across Mexico, USA, and Canada. The program is administered by the US Geological Survey (USGS), coordinated by the Canadian Wildlife Health Cooperative (CWHC) in Canada, and implemented by the North by Northwest Bat (NNW) Hub in British Columbia, Alberta, and S.E. Alaska.
 
-### 2025 NABat Monitoring in Blackwater Gold Mine
+### 2025 NABat Monitoring in Pemberton
 
-In the field season of 2025, `r nrow(sites)` bat acoustic deployments were made at the Blackwater Gold Mine managed by BW Gold. The monitoring stations collected data between `r min(sites$Date.Recording.Started)` and `r max(sites$Date.Recording.Ended)`. The recordings were submitted to SENSR for processing and manual vetting to determine species presence or absence at each location. Upon agreement with BW Gold, SENSR can share these results with the NNW Bat Hub for inclusion in the provincial annual report on the state of bat populations within British
+In the field season of 2025, `r nrow(sites)` bat acoustic deployments were made at the Pemberton grid cell (GRTS ID: 143274). The monitoring stations collected data between `r min(sites$Date.Recording.Started)` and `r max(sites$Date.Recording.Ended)`. The recordings were submitted to SENSR for processing and manual vetting to determine species presence or absence at each location. Upon agreement with BW Gold, SENSR can share these results with the NNW Bat Hub for inclusion in the provincial annual report on the state of bat populations within British
 
 ![Site deployment at Blackwater Mine 73082-NW](Images/73082-NW.jpg)
 
@@ -504,7 +457,7 @@ In 2025, BW Gold deployed `r nrow(sites)` across Blackwater Gold Mine `r if(knit
 #| message: false
 #| include: !expr knitr::is_latex_output()
 #| label: tbl-sites
-#| tbl-cap: !expr if(knitr::is_latex_output()) "Acoustic monitoring locations for bat surveys carried out at Blackwater Gold Mine in 2025" else NULL
+#| tbl-cap: !expr if(knitr::is_latex_output()) "Acoustic monitoring locations for bat surveys carried out in Pemberton in 2025" else NULL
 #| fig.pos: 'H'
 
 if (knitr::is_latex_output()) {
@@ -525,7 +478,7 @@ if (knitr::is_latex_output()) {
 #| message: false
 #| include: true
 #| fig-align: center
-#| fig-cap: "Acoustic monitoring locations for bat surveys carried out Blackwater Mine in 2025."
+#| fig-cap: "Acoustic monitoring locations for bat surveys carried in Pemberton in 2025."
 #| label: fig-monitoring-locations
 
 # Check output format
@@ -563,27 +516,9 @@ Full-spectrum recordings from the sampling periods were collected and processed 
 
 The analysis workflow followed processing standards established by the North American Bat Monitoring Program (NABat) [@reichert2018Guide]. Only recordings that received automated species classifications from either Kaleidoscope or Sonobat were selected for manual verification. For stationary acoustic monitoring sites, recordings were manually vetted until at least one recording per species per site per night was confidently identified. Species identifications were validated using reference call parameters described by @szewczak2018Acoustic, @slough2022New, and @solick2022Bat, in accordance with NABat manual vetting protocols. A full list of species names and codes can be found on [Appendix A]
 
-All recordings with their associated tags have been uploaded to Wildtrax to the project named [Blackwater Gold Mine NABAT Monitoring](https://portal.wildtrax.ca/aru/3871). All the associated tags have also been uploaded to NABat undet the project name [Blackwater Gold Mine NABAT Monitoring](https://sciencebase.usgs.gov/nabat/#/projects/8433).
-
 ## Results
 
-Following manual verification, Eastern Red Bats (*Lasirus borealis*), Silver-haired bats (*Lasionycteris noctivagans*), and Little Brown Myotis (*Myotis lucifugus*) were detected at all surveyed locations ([@fig-MVsummary]). Long-eared Myotis (*Myotis evotis*) was detected at all surveyed locations except for at BAT20, their presence at this site remains plausible given regional distributions. Hoary bats (*Lasirus cinereus*) were detected at all sites except BAT18 and BAT8; however, their presence at this site remains plausible given regional distributions.
-
-```{r}
-#| label: fig-MVsummary
-#| fig-cap: "Species confirmed through manual verification across monitoring locations in 2025. Blue tiles indicate species presence; gray tiles indicate absence."
-#| echo: false
-#| warning: false
-#| message: false
-
-if (knitr::is_latex_output()) {
-  # PDF output
-  print(MV)
-} else {
-  # HTML output
-  print(MV)
-}
-```
+Preliminary results show Eastern Red Bats (*Lasirus borealis*), Silver-haired bats (*Lasionycteris noctivagans*), and Little Brown Myotis (*Myotis lucifugus*) were detected at all surveyed locations ([@fig-MVsummary]). Long-eared Myotis (*Myotis evotis*) was detected at all surveyed locations except for at BAT20, their presence at this site remains plausible given regional distributions. Hoary bats (*Lasirus cinereus*) were detected at all sites except BAT18 and BAT8; however, their presence at this site remains plausible given regional distributions.
 
 ```{r}
 #| label: fig-KSsummary
@@ -616,14 +551,6 @@ if (knitr::is_latex_output()) {
   print(SB_plot)
 }
 ```
-
-{{< pagebreak >}}
-
-## Recomendations
-
-Overall, deployments performed well. We recommend verifying deployment settings, as the unit BAT14_73082 appeared to collect a high volume of noise files at regular 15-minute intervals. This pattern suggests that both triggered and scheduled recordings may have been enabled. Running both modes concurrently can deplete batteries quicker; therefore, we recommend using triggered recordings only when the objective is bat monitoring.
-
-This represents the first year of acoustic bat monitoring in this region, and continued monitoring is strongly encouraged to establish a robust baseline for long-term assessment. Sustained data collection over multiple years is critical for evaluating temporal patterns for bat species in the region. After a minimum of five consecutive years of monitoring, the dataset will be sufficient to support meaningful trend analyses and habitat association assessments, enabling more reliable evaluation of the persistence and distribution of bat species across the landscape.
 
 {{< pagebreak >}}
 
