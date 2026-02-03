@@ -360,7 +360,7 @@ unique_bat_ids$Definition <- c(
   "No bat recorded",
   "Various species of Myotis that have a characteristic frequency in the range of 35-40kHz",
   "Various species with pulses having a characteristic frequency higher than ~35kHz",
-  "Various species with pulses having a characteristic frequency lower than ~30kHz", "Calls that have diagnostic features identifying it as Myotis yumanensis", "Calls that have diagnostic features identifying it as Myotis californicus", "Calls that have diagnostic features identifying it as Corynorhinus townsendii", "Calls that have diagnostic features identifying it as Euderma maculatum", "Calls that have diagnostic features identifying it as Myotis thysanodes"
+  "Various species with pulses having a characteristic frequency lower than ~30kHz", "Calls that have diagnostic features identifying it as Myotis yumanensis", "Calls that have diagnostic features identifying it as Myotis californicus", "Calls that have diagnostic features identifying it as Corynorhinus townsendii", "Calls that have diagnostic features identifying it as Myotis thysanodes", "Calls that have diagnostic features identifying it as Euderma maculatum"
 )
 
 # Add Scientific names
@@ -391,7 +391,8 @@ unique_bat_ids$ScientificName <- c(
   "Myotis yumanensis",
   "Myotis californicus",
   "Corynorhinus townsendii",
-  "Euderma maculatum", "Myotis thysanodes"
+  "Myotis thysanodes",
+  "Euderma maculatum"
   
   
 )
@@ -420,12 +421,25 @@ unique_bat_ids$CommonName <- c(
   "No Bat",
   "40kHz Frequency Myotis",
   "High Frequency Bat",
-  "Low Frequency Bat"
+  "Low Frequency Bat", 
+  "Yuma Myotis",
+  "California Myotis",
+  "Townsend's big-eared bat", 
+  "Fringed Myotis",
+  "Spotted Bat"
+  
 )
 
 # Re-order columns for the table
 unique_bat_ids <- unique_bat_ids[, c("CommonName", "ScientificName", "Code", "Definition")]
 
+unique_bat_ids <- unique_bat_ids %>%
+  arrange(ScientificName)
+
+unique_bat_ids <- unique_bat_ids %>%
+  mutate(order_flag = ifelse(row_number() <= 5, 1, 0)) %>%
+  arrange(order_flag, ScientificName) %>%
+  select(-order_flag)
 # If you want just a simple character vector
 unique_bat_id_vector <- unique_bat_ids$Code
 
