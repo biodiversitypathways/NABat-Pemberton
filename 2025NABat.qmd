@@ -332,7 +332,7 @@ SB_plot <- ggplot(SB_long, aes(x = species, y = location, fill = factor(present)
 unique_bat_ids <- data.frame(
   Code = c("EPFU", "EPFULACI", "EPFULANO", "LABO", "LABOMYLU", "LACI", "LASIURUS",
            "LACILANO", "LANO", "MYCI","MYCIMYLU", "MYCIMYVO","MYEV", "MYLU", "MYLUMYSE", "MYOTIS", "MYSE", "MYVO", "NOID", "NOISE",
-           "40KMYO", "HighF", "LowF"),
+           "40KMYO", "HighF", "LowF", "MYOYUM", "MYOCAL", "CORTOW", "MYOTHY", "EUDMAC"),
   stringsAsFactors = FALSE
 )
 
@@ -360,7 +360,7 @@ unique_bat_ids$Definition <- c(
   "No bat recorded",
   "Various species of Myotis that have a characteristic frequency in the range of 35-40kHz",
   "Various species with pulses having a characteristic frequency higher than ~35kHz",
-  "Various species with pulses having a characteristic frequency lower than ~30kHz"
+  "Various species with pulses having a characteristic frequency lower than ~30kHz", "Calls that have diagnostic features identifying it as Myotis yumanensis", "Calls that have diagnostic features identifying it as Myotis californicus", "Calls that have diagnostic features identifying it as Corynorhinus townsendii", "Calls that have diagnostic features identifying it as Euderma maculatum", "Calls that have diagnostic features identifying it as Myotis thysanodes"
 )
 
 # Add Scientific names
@@ -387,7 +387,13 @@ unique_bat_ids$ScientificName <- c(
   "",
   "",
   "",
-  ""
+  "", 
+  "Myotis yumanensis",
+  "Myotis californicus",
+  "Corynorhinus townsendii",
+  "Euderma maculatum", "Myotis thysanodes"
+  
+  
 )
 
 # Add common names
@@ -512,7 +518,7 @@ if (knitr::is_html_output()) {
 
 ### Data processing
 
-Full-spectrum recordings from the sampling periods were collected and processed using two automatic classifiers: Kaleidoscope’s Bats of North America 5.4.0 classifier and Sonobat 3.0’s northeastern British Columbia classifier. Based on documented species ranges and prior detection data, manual verification efforts focused on the species present at each individual site.
+Full-spectrum recordings from the sampling periods were collected and processed using two automatic classifiers: Kaleidoscope's Bats of North America 5.4.0 classifier and Sonobat 3.0's northeastern British Columbia classifier. Based on documented species ranges and prior detection data, manual verification efforts focused on the species present at each individual site.
 
 The analysis workflow followed processing standards established by the North American Bat Monitoring Program (NABat) [@reichert2018Guide]. Only recordings that received automated species classifications from either Kaleidoscope or Sonobat were selected for manual verification. For stationary acoustic monitoring sites, recordings were manually vetted until at least one recording per species per site per night was confidently identified. Species identifications were validated using reference call parameters described by @szewczak2018Acoustic, @slough2022New, and @solick2022Bat, in accordance with NABat manual vetting protocols. A full list of species names and codes can be found on [Appendix A]
 
