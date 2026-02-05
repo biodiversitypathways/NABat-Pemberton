@@ -188,6 +188,8 @@ sites_table$`NABat GRTS ID` <- as.character(sites_table$`NABat GRTS ID`)
 #| warning: false
 #| message: false
 
+##check if the document renders without this code...?
+
 #first identify the specific sites from the filenames
 data <- df %>%
   mutate(site = str_extract(filename, "^[^_]+"))
@@ -245,6 +247,13 @@ detailed_summary <- data %>%
 #| warning: false
 #| message: false
 
+#first identify the specific sites from the filenames
+data <- df %>%
+  mutate(site = str_extract(filename, "^[^_]+"))
+
+#delete sites that are actually identified as transects
+data <- data[!grepl("202506", data$site),]
+
 # Corrected function
 create_species_matrix <- function(data, species_column, location_column = "site") {
   # Create a dataframe with location and species strings
@@ -288,46 +297,31 @@ create_species_matrix <- function(data, species_column, location_column = "site"
 
 
 # ============================================================================
-# KALEIDOSCOPE AUTO ID
+# COMBINED KALEIDOSCOPE AND SONOBAT AUTO ID
 # ============================================================================
 
-KS_matrix <- create_species_matrix(data, "WA.Kaleidoscope.Auto.ID")
+Spp_matrix <- create_species_matrix(data, "CombinedID")
 
 # Convert to long format for ggplot
-KS_long <- KS_matrix %>%
+Spp_long <- Spp_matrix %>%
   pivot_longer(
     cols = -location,
     names_to = "species",
     values_to = "present"
   ) %>%
+  # Filter to only single species codes (4 letters or less)
+  filter(nchar(species) == 4) %>%
   mutate(species = factor(species))
 
-# Truncate species codes to 4 letters for Kaleidoscope
-KS_long <- KS_long %>%
-  mutate(species = ifelse(
-    nchar(as.character(species)) > 4,
-    paste0(str_sub(as.character(species), 1, 2), 
-           str_sub(as.character(species), 4, 5)),
-    as.character(species)
-  ))
+# Organize based on alphabetical order of locations
+Spp_long$location <- factor(Spp_long$location, 
+                            levels = sort(unique(Spp_long$location)))
+# Update the species codes to have full species names (if you have a species_names lookup)
+Spp_long$species <- species_names[as.character(Spp_long$species)]
 
-#organize based on alphabetical order of locations
-KS_long$location <- factor(KS_long$location, 
-                           levels = sort(unique(KS_long$location)))
 
-# Custom species ordering: alphabetical, but HighF, LowF, 40K at end
-KS_species_list <- unique(KS_long$species)
-freq_categories <- c("40K", "HiF", "HiLo", "LoF", "HighF", "LowF")
-KS_regular_species <- sort(setdiff(KS_species_list, freq_categories))
-KS_ordered_species <- c(KS_regular_species, sort(freq_categories))
-
-KS_long$species <- factor(KS_long$species, levels = KS_ordered_species)
-
-#update the species codes to have full species names
-KS_long$species <- species_names[as.character(KS_long$species)]
-
-# Create heat map for Kaleidoscope
-KS_plot <- ggplot(KS_long, aes(x = species, y = location, fill = factor(present))) +
+# Create heat map
+Spp_plot <- ggplot(Spp_long, aes(x = species, y = location, fill = factor(present))) +
   geom_tile(color = "white", linewidth = 0.5) +
   scale_fill_manual(
     values = c("0" = "gray95", "1" = "#2C7BB6"),
@@ -335,7 +329,6 @@ KS_plot <- ggplot(KS_long, aes(x = species, y = location, fill = factor(present)
     name = "Detection"
   ) +
   labs(
-    #subtitle = "Species identified by Kaleidoscope",
     x = "Species Code",
     y = "Location"
   ) +
@@ -348,180 +341,6 @@ KS_plot <- ggplot(KS_long, aes(x = species, y = location, fill = factor(present)
     panel.grid = element_blank(),
     legend.position = "bottom"
   )
-
-
-# ============================================================================
-# SONOBAT AUTO ID
-# ============================================================================
-
-SB_matrix <- create_species_matrix(data, "SB.Species.Auto.ID.verbose")
-
-# Convert to long format for ggplot
-SB_long <- SB_matrix %>%
-  pivot_longer(
-    cols = -location,
-    names_to = "species",
-    values_to = "present"
-  ) %>%
-  mutate(species = factor(species))
-
-SB_long$location <- factor(SB_long$location, 
-                           levels = sort(unique(SB_long$location)))
-
-# Custom species ordering: alphabetical, but HighF, LowF, 40K at end
-SB_species_list <- unique(SB_long$species)
-SB_regular_species <- sort(setdiff(SB_species_list, freq_categories))
-SB_ordered_species <- c(SB_regular_species, sort(freq_categories))
-
-SB_long$species <- factor(SB_long$species, levels = SB_ordered_species)
-
-# Create heat map for SonoBat
-SB_plot <- ggplot(SB_long, aes(x = species, y = location, fill = factor(present))) +
-  geom_tile(color = "white", linewidth = 0.5) +
-  scale_fill_manual(
-    values = c("0" = "gray95", "1" = "#2C7BB6"),
-    labels = c("Absent", "Present"),
-    name = "Detection"
-  ) +
-  labs(
-    #subtitle = "Species identified by SonoBat",
-    x = "Species Code",
-    y = "Location"
-  ) +
-  theme_minimal(base_size = 12) +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 10),
-    axis.text.y = element_text(size = 10),
-    plot.title = element_text(face = "bold", size = 14),
-    plot.subtitle = element_text(size = 11, color = "gray40"),
-    panel.grid = element_blank(),
-    legend.position = "bottom"
-  )
-```
-
-```{r}
-#| label: setup - bat spp definitions
-#| include: false
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-
-# Create species reference table from scratch
-unique_bat_ids <- data.frame(
-  Code = c("EPFU", "EPFULACI", "EPFULANO", "LABO", "LABOMYLU", "LACI", "LASIURUS",
-           "LACILANO", "LANO", "MYCI","MYCIMYLU", "MYCIMYVO","MYEV", "MYLU", "MYLUMYSE", "MYOTIS", "MYSE", "MYVO", "NOID", "NOISE",
-           "40KMYO", "HighF", "LowF", "MYOYUM", "MYOCAL", "CORTOW", "MYOTHY", "EUDMAC"),
-  stringsAsFactors = FALSE
-)
-
-# Add definitions for each manual ID
-unique_bat_ids$Definition <- c(
-  "Calls that have diagnostic features identifying it as Eptesicus fuscus",
-  "Calls that could be attributed to either Eptesicus fuscus or Lasiurus cinereus",
-  "Calls that could be attributed to either Eptesicus fuscus or Lasyonicteris noctivagans",
-  "Calls that have diagnostic features identifying it as Lasiurus borealis",
-  "Calls that could be attributed to either Lasiurus borealis or Myotis lucifugus",
-  "Calls that have diagnostic features identifying it as Lasiurus cinereus",
-  "Calls that have diagnostic features identifying it as Lasiurus species",
-  "Calls that could be attributed to either Lasiurus cinereus or Lasyonicteris noctivagans",
-  "Calls that have diagnostic features identifying it as Lasyonicteris noctivagans",
-  "Calls that have diagnostic features identifying it as Myotis ciliolabrum",
-  "Calls that could be attributed to either Myotis ciliolabrum or Myotis lucifugus",
-  "Calls that could be attributed to either Myotis ciliolabrum or Myotis volans",
-  "Calls that have diagnostic features identifying it as Myotis evotis",
-  "Calls that have diagnostic features identifying it as Myotis lucifugus",
-  "Calls that could be attributed to either Myotis lucifugus or Myotis septentrionalis",
-  "Calls that have diagnostic features identifying it as Myotis species",
-  "Calls that have diagnostic features identifying it as Myotis septentrionalis",
-  "Calls that have diagnostic features identifying it as Myotis volans",
-  "Bat calls but no grouping category applies",
-  "No bat recorded",
-  "Various species of Myotis that have a characteristic frequency in the range of 35-40kHz",
-  "Various species with pulses having a characteristic frequency higher than ~35kHz",
-  "Various species with pulses having a characteristic frequency lower than ~30kHz", "Calls that have diagnostic features identifying it as Myotis yumanensis", "Calls that have diagnostic features identifying it as Myotis californicus", "Calls that have diagnostic features identifying it as Corynorhinus townsendii", "Calls that have diagnostic features identifying it as Myotis thysanodes", "Calls that have diagnostic features identifying it as Euderma maculatum"
-)
-
-# Add Scientific names
-unique_bat_ids$ScientificName <- c(
-  "Eptesicus fuscus",
-  "Eptesicus fuscus / Lasiurus cinereus",
-  "Eptesicus fuscus / Lasyonicteris noctivagans",
-  "Lasiurus borealis",
-  "Lasiurus borealis / Myotis Lucifugus",
-  "Lasiurus cinereus",
-  "Lasiurus species",
-  "Lasiurus cinereus / Lasyonicteris noctivagans",
-  "Lasyonicteris noctivagans",
-  "Myotis ciliolabrum",
-  "Myotis ciliolabrum / Myotis lucifugus",
-  "Myotis ciliolabrum / Myotis volans",
-  "Myotis evotis",
-  "Myotis lucifugus",
-  "Myotis lucifugus / Myotis septentrionalis",
-  "Myotis species",
-  "Myotis septentrionalis",
-  "Myotis volans",
-  "",
-  "",
-  "",
-  "",
-  "", 
-  "Myotis yumanensis",
-  "Myotis californicus",
-  "Corynorhinus townsendii",
-  "Myotis thysanodes",
-  "Euderma maculatum"
-  
-  
-)
-
-# Add common names
-unique_bat_ids$CommonName <- c(
-  "Big Brown Bat",
-  "Big Brown Bat / Hoary Bat",
-  "Big Brown Bat / Silver-haired Bat",
-  "Eatern Red Bat",
-  "Eastern Red Bat / Little Brown Myotis",
-  "Hoary Bat",
-  "Bat from the Lasiurus genus",
-  "Hoary Bat / Silver-haired Bat",
-  "Silver-haired Bat",
-  "Western Small-footed Myotis",
-  "Western Small-footed Myotis / Little Brown Myotis",
-  "Western Small-footed Myotis / Long-legged Myotis",
-  "Long-eared Myotis",
-  "Little Brown Myotis",
-  "Little Brown Myotis / Northern Myotis",
-  "Bat from the Myotis genus",
-  "Northern Myotis",
-  "Long-legged Myotis",
-  "Unknown Bat",
-  "No Bat",
-  "40kHz Frequency Myotis",
-  "High Frequency Bat",
-  "Low Frequency Bat", 
-  "Yuma Myotis",
-  "California Myotis",
-  "Townsend's big-eared bat", 
-  "Fringed Myotis",
-  "Spotted Bat"
-  
-)
-
-# Re-order columns for the table
-unique_bat_ids <- unique_bat_ids[, c("CommonName", "ScientificName", "Code", "Definition")]
-
-unique_bat_ids <- unique_bat_ids %>%
-  arrange(ScientificName)
-
-unique_bat_ids <- unique_bat_ids %>%
-  mutate(order_flag = ifelse(row_number() <= 5, 1, 0)) %>%
-  arrange(order_flag, ScientificName) %>%
-  select(-order_flag)
-# If you want just a simple character vector
-unique_bat_id_vector <- unique_bat_ids$Code
-
 
 ```
 
