@@ -68,6 +68,81 @@ sites <- sites %>%
     mutate(
     nights = as.numeric(difftime(Date.Recording.Ended, Date.Recording.Started, units = "days")) + 1)
 
+#map all of the codes to species names
+species_names <- c(
+  "EPFU" = "Big Brown Bat",
+  "MYCA" = "California Myotis",
+  "MYTH" = "Fringed Myotis",
+  "LACI" = "Hoary Bat",
+  "MYLU" = "Little Brown Myotis",
+  "MYEV" = "Long-eared Myotis",
+  "MYVO" = "Long-legged Myotis",
+  "MYSE" = "Northern Myotis",
+  "LANO" = "Silver-haired Bat",
+  "EUMA" = "Spotted Bat",
+  "COTO" = "Townsend's Big-eared Bat",
+  "MYCI" = "Western Small-footed Myotis",
+  "MYYU" = "Yuma Myotis"
+)
+
+#create a spp. combined column with both autoID resutls
+
+df <- df %>%
+  mutate(
+    WA_4letter = case_when(
+      # Keep non-species codes as-is
+      WA.Kaleidoscope.Auto.ID %in% c("NoID", "Noise", NA) ~ WA.Kaleidoscope.Auto.ID
+      ,WA.Kaleidoscope.Auto.ID == "" ~ "",
+      # Convert to 4-letter code
+      TRUE ~ paste0(substr(WA.Kaleidoscope.Auto.ID, 1, 2), 
+                    substr(WA.Kaleidoscope.Auto.ID, 4, 5))
+    )
+  )
+
+# Define non-species codes
+non_species_codes_SB <- c("NOISE", "HiF", "LoF", "HiLo", "NoID")
+non_species_codes_WA <- c("NoID", "Noise")
+
+df <- df %>%
+  mutate(
+    SB_clean = ifelse(
+      is.na(SB.Species.Auto.ID.verbose) | SB.Species.Auto.ID.verbose == "", 
+      "NOISE", SB.Species.Auto.ID.verbose),
+    WA_clean = ifelse(is.na(WA_4letter) | WA_4letter == "", 
+                      "NoID", WA_4letter),
+    # Check if each is a non-species code
+    SB_is_nonspecies = SB_clean %in% non_species_codes_SB,
+    WA_is_nonspecies = WA_clean %in% non_species_codes_WA,
+    
+    # Apply the logic
+    CombinedID = case_when(
+      # Both are non-species codes
+      SB_is_nonspecies & WA_is_nonspecies ~ "Low Quality Pass",
+      
+      # One is non-species, take the other
+      SB_is_nonspecies & !WA_is_nonspecies ~ WA_clean,
+      !SB_is_nonspecies & WA_is_nonspecies ~ SB_clean,
+      
+      # Both have species - check if they match
+      TRUE ~ {
+        # For each row, check if species match or combine them
+        mapply(function(sb, wa) {
+          # Check if they're the same species (case-insensitive)
+          if(toupper(sb) == toupper(wa)) {
+            # They match - return the uppercase version
+            return(toupper(wa))
+          } else {
+            # They don't match - combine them alphabetically (uppercase)
+            combined <- paste0(sort(c(toupper(sb), toupper(wa))), collapse = "")
+            return(combined)
+          }
+        }, SB_clean, WA_clean)
+      }
+    )
+  ) %>%
+  mutate(CombinedID = toupper(CombinedID)) %>% 
+  select(-SB_clean, -WA_clean, -SB_is_nonspecies, -WA_is_nonspecies)
+
 ```
 
 ```{r}
@@ -117,7 +192,10 @@ sites_table$`NABat GRTS ID` <- as.character(sites_table$`NABat GRTS ID`)
 data <- df %>%
   mutate(site = str_extract(filename, "^[^_]+"))
 
-# Summarize which species were found at each site adn by each detector
+#delete sites that are actually identified as transects
+data <- data[!grepl("202506", data$site),]
+
+# Summarize which species were found at each site and by each detector
 detailed_summary <- data %>%
   group_by(site) %>%
   summarise(
@@ -133,7 +211,9 @@ detailed_summary <- data %>%
       if(length(species) > 0) paste(species, collapse = ", ") else "None"
     },
     sonobat_species = {
-      species <- `SB.Species.Auto.ID.verbose` %>%
+      species <- 
+        
+        %>%
         na.omit() %>%
         str_split("[, ]+") %>%                # Split by comma, space, or both
         unlist() %>%
@@ -164,10 +244,6 @@ detailed_summary <- data %>%
 #| eval: true
 #| warning: false
 #| message: false
-
-# First, make sure your data has the site column
-data <- df %>%
-  mutate(site = str_extract(filename, "^[^_]+"))
 
 # Corrected function
 create_species_matrix <- function(data, species_column, location_column = "site") {
@@ -247,6 +323,9 @@ KS_ordered_species <- c(KS_regular_species, sort(freq_categories))
 
 KS_long$species <- factor(KS_long$species, levels = KS_ordered_species)
 
+#update the species codes to have full species names
+KS_long$species <- species_names[as.character(KS_long$species)]
+
 # Create heat map for Kaleidoscope
 KS_plot <- ggplot(KS_long, aes(x = species, y = location, fill = factor(present))) +
   geom_tile(color = "white", linewidth = 0.5) +
@@ -269,6 +348,7 @@ KS_plot <- ggplot(KS_long, aes(x = species, y = location, fill = factor(present)
     panel.grid = element_blank(),
     legend.position = "bottom"
   )
+
 
 # ============================================================================
 # SONOBAT AUTO ID
@@ -317,7 +397,6 @@ SB_plot <- ggplot(SB_long, aes(x = species, y = location, fill = factor(present)
     panel.grid = element_blank(),
     legend.position = "bottom"
   )
-
 ```
 
 ```{r}
