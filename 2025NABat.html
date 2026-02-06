@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Camila Hurtado">
+<meta name="dcterms.date" content="2026-02-06">
+
+<title>North American Bat Monitoring Program in Pemberton</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="2025NABat_files/libs/clipboard/clipboard.min.js"></script>
+<script src="2025NABat_files/libs/quarto-html/quarto.js"></script>
+<script src="2025NABat_files/libs/quarto-html/popper.min.js"></script>
+<script src="2025NABat_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="2025NABat_files/libs/quarto-html/anchor.min.js"></script>
+<link href="2025NABat_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="2025NABat_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="2025NABat_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="2025NABat_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="2025NABat_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #F4F4F5;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #F4F4F5;
+background: #1d4566;
+      }
+</style>
+<link href="2025NABat_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="2025NABat_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="2025NABat_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="2025NABat_files/libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="2025NABat_files/libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="2025NABat_files/libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="2025NABat_files/libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="2025NABat_files/libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="2025NABat_files/libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="2025NABat_files/libs/leaflet-binding-2.2.3/leaflet.js"></script>
+<link href="2025NABat_files/libs/leaflet-minimap-3.3.1/Control.MiniMap.min.css" rel="stylesheet">
+<script src="2025NABat_files/libs/leaflet-minimap-3.3.1/Control.MiniMap.min.js"></script>
+<script src="2025NABat_files/libs/leaflet-minimap-3.3.1/Minimap-binding.js"></script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">North American Bat Monitoring Program in Pemberton</h1>
+            <p class="subtitle lead">Data Summary - 2025</p>
+                      </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Affiliation</div>
+    
+      <div class="quarto-title-meta-contents">
+      <p class="author">Camila Hurtado </p>
+    </div>
+      <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              Lead, Biodiversity Pathways Ltd.
+            </p>
+        </div>
+      </div>
+
+  <div class="quarto-title-meta">
+
+        
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 6, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#land-acknowledgement" id="toc-land-acknowledgement" class="nav-link active" data-scroll-target="#land-acknowledgement">Land Acknowledgement</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#overview-of-nabat-and-the-nnw-bat-hub" id="toc-overview-of-nabat-and-the-nnw-bat-hub" class="nav-link" data-scroll-target="#overview-of-nabat-and-the-nnw-bat-hub">Overview of NABat and the NNW Bat Hub</a></li>
+  <li><a href="#nabat-monitoring-in-pemberton" id="toc-nabat-monitoring-in-pemberton" class="nav-link" data-scroll-target="#nabat-monitoring-in-pemberton">2025 NABat Monitoring in Pemberton</a></li>
+  </ul></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
+  <ul class="collapse">
+  <li><a href="#field-deployments" id="toc-field-deployments" class="nav-link" data-scroll-target="#field-deployments">Field Deployments</a></li>
+  <li><a href="#data-processing" id="toc-data-processing" class="nav-link" data-scroll-target="#data-processing">Data processing</a></li>
+  </ul></li>
+  <li><a href="#results-and-discussion" id="toc-results-and-discussion" class="nav-link" data-scroll-target="#results-and-discussion">Results and Discussion</a></li>
+  <li><a href="#literature-cited" id="toc-literature-cited" class="nav-link" data-scroll-target="#literature-cited">Literature Cited</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="2025NABat.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<div style="page-break-after: always;"></div>
+<section id="land-acknowledgement" class="level2">
+<h2 class="anchored" data-anchor-id="land-acknowledgement">Land Acknowledgement</h2>
+<p>Biodiversity Pathways respectfully acknowledges that our work takes place on Treaty 8 and Douglas Treaties Territories as well as the traditional and unceded territories of First Nations and Métis Peoples across all regions of British Columbia, whose histories, languages, and cultures are deeply connected to the biodiversity we monitor. We acknowledge the traditional teachings of the lands that we work on, and that reciprocal, meaningful, and respectful relationships with Indigenous peoples make our work possible. We are deeply grateful for their stewardship of these lands, and we are committed to supporting Indigenous-led monitoring programs, while learning Indigenous ways of knowing, being, and doing.</p>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/Gr10Batclass.jpg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Deployment at the SW quadrant of the Pemberton Grid cell (GRTS ID: 143274 ) in 2025.</figcaption>
+</figure>
+</div>
+<section id="overview-of-nabat-and-the-nnw-bat-hub" class="level3">
+<h3 class="anchored" data-anchor-id="overview-of-nabat-and-the-nnw-bat-hub">Overview of NABat and the NNW Bat Hub</h3>
+<p>The North American Bat Monitoring Program (NABat) is a large-scale coordinated effort to monitor bat species across North America using standardized protocols and a unified sample design <span class="citation" data-cites="loeb2015Plan">(<a href="#ref-loeb2015Plan" role="doc-biblioref">Loeb et al. 2015</a>)</span>. NABat was established to address the gaps in knowledge and lack of long-term studies of bat species across Mexico, USA, and Canada. The program is administered by the US Geological Survey (USGS), and implemented by the North by Northwest Bat (NNW) Hub in British Columbia, Alberta, and S.E. Alaska.</p>
+</section>
+<section id="nabat-monitoring-in-pemberton" class="level3">
+<h3 class="anchored" data-anchor-id="nabat-monitoring-in-pemberton">2025 NABat Monitoring in Pemberton</h3>
+<p>In the field season of 2025, 4 bat acoustic deployments were made at the Pemberton grid cell (GRTS ID: 143274). The monitoring stations collected data between 2025-05-31 and 2025-06-11. The recordings were submitted to the North by Northwest (NNW) Bat Hub for processing and inclusion in the provincial annual report on the state of bat populations within British Columbia.</p>
+</section>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<section id="field-deployments" class="level3">
+<h3 class="anchored" data-anchor-id="field-deployments">Field Deployments</h3>
+<p>In 2025, grid leaders and volunteers deployed 4 recording units in the Pemberton grid cell (<a href="#fig-monitoring-locations">Figure&nbsp;1</a>) following the standards set by NABat and the North by Northwest (NNW) Bat Hub <span class="citation" data-cites="reichert2018Guide">(<a href="#ref-reichert2018Guide" role="doc-biblioref">Reichert et al. 2018</a>)</span>. All of these locations were established sites that have been monitored for 6 continuous years starting in 2019. In 2025 the recording units collected data for a total of 45 ARU nights. ARU nights quantify the total acoustic sampling effort by summing the number of nights each ARU was deployed and recording. This metric accounts for all individual recorder deployments, such that two ARUs recording for seven nights would equal 14 ARU nights total, even if deployed concurrently.</p>
+<div id="tbl-sites" class="cell tbl-parent quarto-layout-panel anchored" data-tbl-cap="Acoustic monitoring locations for bat surveys carried out in Pemberton in 2025">
+
+</div>
+<div class="cell" data-layout-align="center">
+<div id="fig-monitoring-locations" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-c3d35fe621a04fbbf755" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-c3d35fe621a04fbbf755">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircleMarkers","args":[[50.3004,50.3446,50.3377,50.2961],[-122.758,-122.8479,-122.8012,-122.8048],8,null,null,{"interactive":true,"className":"","stroke":true,"color":"black","weight":1,"opacity":0.5,"fill":true,"fillColor":"#1d4566","fillOpacity":0.8},null,null,["<b>Site:<\/b> SE <br> <b>NABat GRTS ID:<\/b> 143274 <br> <b>Deployment Dates:<\/b> 2025-05-31 to 2025-06-11","<b>Site:<\/b> NW <br> <b>NABat GRTS ID:<\/b> 143274 <br> <b>Deployment Dates:<\/b> 2025-06-01 to 2025-06-11","<b>Site:<\/b> NE <br> <b>NABat GRTS ID:<\/b> 143274 <br> <b>Deployment Dates:<\/b> 2025-06-01 to 2025-06-11","<b>Site:<\/b> SW <br> <b>NABat GRTS ID:<\/b> 143274 <br> <b>Deployment Dates:<\/b> 2025-06-01 to 2025-06-11"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addMiniMap","args":[null,null,"bottomright",150,150,19,19,-5,false,false,false,true,false,false,{"color":"#ff7800","weight":1,"clickable":false},{"color":"#000000","weight":1,"clickable":false,"opacity":0,"fillOpacity":0},{"hideText":"Hide MiniMap","showText":"Show MiniMap"},[]]}],"limits":{"lat":[50.2961,50.3446],"lng":[-122.8479,-122.758]}},"evals":[],"jsHooks":[]}</script>
+<figcaption class="figure-caption">Figure&nbsp;1: Acoustic monitoring locations for bat surveys carried in Pemberton in 2025.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="data-processing" class="level3">
+<h3 class="anchored" data-anchor-id="data-processing">Data processing</h3>
+<p>Full-spectrum recordings from the sampling periods were collected and processed using two automatic classifiers: Kaleidoscope’s Bats of North America 5.4.0 classifier and Sonobat 3.0’s northeastern British Columbia classifier. Manual verification is currently underway, and results can be shared upon request.</p>
+</section>
+</section>
+<section id="results-and-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="results-and-discussion">Results and Discussion</h2>
+<p>Preliminary results show that the highest bat species diversity was detected in the SW and NE quadrants of the Pemberton grid, with 11 different species recorded at each location (<a href="#fig-summary">Figure&nbsp;2</a>). The Spotted Bat (<em>Euderma maculatum</em>) was detected only in the SW quadrant. Both the Hoary Bat (<em>Lasiurus cinereus</em>) and the Silver-haired Bat (<em>Lasionycteris noctivagans</em>) were detected across all sites. These two species have been recognized as endangered by COSEWIC <span class="citation" data-cites="committeeonthestatusofendangeredwildlifeincanada2023Hoary">(<a href="#ref-committeeonthestatusofendangeredwildlifeincanada2023Hoary" role="doc-biblioref">Status of Endangered Wildlife in Canada 2023</a>)</span> and are expected to be listed under Canada’s Species at Risk Act (SARA). The Little Brown Myotis (<em>Myotis lucifugus</em>), already listed under SARA, was also detected across all sites. The presence of these at-risk species indicates that this grid and region may be important for bat conservation and recovery efforts.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-summary" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="2025NABat_files/figure-html/fig-summary-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: Species detected in the Permberton grid cell using two autoID clasifiers (Kaleidoscope Pro and Sonobat 30). Combined species identifications were created by reconciling SonoBat and Kaleidoscope auto-ID results, retaining species codes when both classifiers agreed.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="literature-cited" class="level2 unnumbered">
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Literature Cited</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-cwhc-rcsf2024Canadian" class="csl-entry" role="listitem">
+CWHC-RCSF. 2024. <span>“Canadian <span>Wildlife Health Cooperative</span> - <span>Réseau</span> Canadien Pour La Santé de La Faune.”</span> 2024. <a href="https://www.cwhc-rcsf.ca/white_nose_syndrome_reports_and_maps.php">https://www.cwhc-rcsf.ca/white_nose_syndrome_reports_and_maps.php</a>.
+</div>
+<div id="ref-ministryofenergyandclimatesolutions2024BC" class="csl-entry" role="listitem">
+Energy and Climate Solutions, Ministry of. 2024. <span>“<span>BC Gov News</span>.”</span> December 9, 2024. <a href="https://news.gov.bc.ca/releases/2024ECS0048-001643">https://news.gov.bc.ca/releases/2024ECS0048-001643</a>.
+</div>
+<div id="ref-friedenberg2021Assessing" class="csl-entry" role="listitem">
+Friedenberg, Nicholas A., and Winifred F. Frick. 2021. <span>“Assessing Fatality Minimization for Hoary Bats Amid Continued Wind Energy Development.”</span> <em>Biological Conservation</em> 262 (October): 109309. <a href="https://doi.org/10.1016/j.biocon.2021.109309">https://doi.org/10.1016/j.biocon.2021.109309</a>.
+</div>
+<div id="ref-loeb2015Plan" class="csl-entry" role="listitem">
+Loeb, Susan C., Thomas J. Rodhouse, Laura E. Ellison, Cori L. Lausen, Jonathan D. Reichard, Kathryn M. Irvine, Thomas E. Ingersoll, et al. 2015. <span>“A Plan for the <span>North American Bat Monitoring Program</span> (<span>NABat</span>).”</span> SRS-GTR-208. Asheville, NC: U.S. Department of Agriculture, Forest Service, Southern Research Station. <a href="https://doi.org/10.2737/SRS-GTR-208">https://doi.org/10.2737/SRS-GTR-208</a>.
+</div>
+<div id="ref-olsonBat" class="csl-entry" role="listitem">
+Olson, Cory. n.d. <span>“Bat <span>Profiles</span>.”</span> Alberta Community Bat Program. Accessed March 6, 2025. <a href="https://www.albertabats.ca/batprofiles/">https://www.albertabats.ca/batprofiles/</a>.
+</div>
+<div id="ref-rae2022North" class="csl-entry" role="listitem">
+Rae, Jason, and Cori L Lausen. 2022. <span>“North <span>American Bat Monitoring Program</span> in <span>British Columbia</span>: 2021 <span>Data Summary</span> and <span>Activity Trend Analyses</span> (2016-2021).”</span> Wildlife Conservation Society of Canada.
+</div>
+<div id="ref-rae2024North" class="csl-entry" role="listitem">
+———. 2024. <span>“North <span>American Bat Monitoring Program</span> in <span>British Columbia</span>: 2023 <span>Data Summary</span> and <span>Activity Trend Analyses</span> (2016-2023).”</span> Wildlife Conservation Society of Canada.
+</div>
+<div id="ref-reichert2018Guide" class="csl-entry" role="listitem">
+Reichert, Brian, Cori Lausen, Susan Loeb, Theodore J. Weller, Ryan Allen, Eric Britzke, Tara Hohoff, et al. 2018. <span>“A <span>Guide</span> to <span>Processing Bat Acoustic Data</span> for the <span>North American Bat Monitoring Program</span> (<span>NABat</span>).”</span> Open-File 2018–1068. U.S. Geological Survey.
+</div>
+<div id="ref-slough2022New" class="csl-entry" role="listitem">
+Slough, Brian, Cori Lausen, Brian Paterson, Ingebjorg Hansen, Julie Thomas, Piia Kukka, Thomas Jung, Jason Rae, and Debbie Wetering. 2022. <span>“New Records about the Diversity, Distribution, and Seasonal Activity Patterns by Bats in <span>Yukon</span> and Northwestern <span>British Columbia</span>.”</span> <em>Northwestern Naturalist</em> 103 (August): 162–82. <a href="https://doi.org/10.1898/NWN21-10">https://doi.org/10.1898/NWN21-10</a>.
+</div>
+<div id="ref-solick2022Bat" class="csl-entry" role="listitem">
+Solick, Donald. 2022. <span>“Bat <span>Acoustic Species-Pair Matrix Western US</span>/<span>Canada</span>.”</span> 2022. <a href="https://www.batacousticsurveys.com/_files/ugd/a1e0ca_0ed9c3172b9145e49c50eb7a7712f909.pdf">https://www.batacousticsurveys.com/_files/ugd/a1e0ca_0ed9c3172b9145e49c50eb7a7712f909.pdf</a>.
+</div>
+<div id="ref-committeeonthestatusofendangeredwildlifeincanada2023Hoary" class="csl-entry" role="listitem">
+Status of Endangered Wildlife in Canada, Committee on the. 2023. <span>“Hoary <span>Bat</span> (<span>Lasiurus</span> Cinereus) <span>Eastern Red Bat</span> (<span>Lasiurus</span> Borealis) <span class="nocase">Silver-haired Bat</span> (<span>Lasionycteris</span> Noctivagans): <span>COSEWIC</span> Assessment and Status Report 2023.”</span> 2023. <a href="https://www.canada.ca/en/environment-climate-change/services/species-risk-public-registry/cosewic-assessments-status-reports/hoary-bat-eastern-red-bat-silver-haired-bat-2023.html">https://www.canada.ca/en/environment-climate-change/services/species-risk-public-registry/cosewic-assessments-status-reports/hoary-bat-eastern-red-bat-silver-haired-bat-2023.html</a>.
+</div>
+<div id="ref-stratton2022Coupling" class="csl-entry" role="listitem">
+Stratton, Christian, Kathryn M. Irvine, Katharine M. Banner, Wilson J. Wright, Cori Lausen, and Jason Rae. 2022. <span>“Coupling Validation Effort with in Situ Bioacoustic Data Improves Estimating Relative Activity and Occupancy for Multiple Species with Cross‐species Misclassifications.”</span> <em>Methods in Ecology and Evolution</em> 13 (6): 1288–1303. <a href="https://doi.org/10.1111/2041-210X.13831">https://doi.org/10.1111/2041-210X.13831</a>.
+</div>
+<div id="ref-szewczak2018Acoustic" class="csl-entry" role="listitem">
+Szewczak, Joe. 2018. <span>“Acoustic <span>Features</span> of <span>Western US Bats</span>.”</span> Humboldt State University Bat Lab.
+</div>
+<div id="ref-u.s.fishandwidlifeserviceusfws2025WhiteNose" class="csl-entry" role="listitem">
+USFWS, U. S. Fish and Widlife Service. 2025. <span>“White-<span>Nose Syndrome</span>.”</span> 2025. <a href="https://www.whitenosesyndrome.org/">https://www.whitenosesyndrome.org/</a>.
+</div>
+<div id="ref-zimmerling2016Bat" class="csl-entry" role="listitem">
+Zimmerling, J. Ryan, and Charles M. Francis. 2016. <span>“Bat Mortality Due to Wind Turbines in <span>Canada</span>.”</span> <em>The Journal of Wildlife Management</em> 80 (8): 1360–69. <a href="https://doi.org/10.1002/jwmg.21128">https://doi.org/10.1002/jwmg.21128</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
