@@ -29,13 +29,15 @@ format:
         \usepackage{titling}
         \pretitle{\begin{center}\includegraphics[width=0.5\textwidth]{Images/PembertonNE.jpg}\\\vspace{1em}\LARGE}
         \posttitle{\end{center}}
+        \preauthor{\begin{center}\large}
+        \postauthor{\\ \normalsize NNW Bat Hub Coordinator \\ Biodiversity Pathways\end{center}}
     include-before-body:
       text: |
         \clearpage
 date: last-modified
 author: 
   - name: "Camila Hurtado"
-    affiliation: "Lead, Biodiversity Pathways Ltd."
+    affiliation: "NNW Bat Hub Coordinator, Biodiversity Pathways"
 editor: visual
 bibliography: references.bib
 nocite: '@*'
